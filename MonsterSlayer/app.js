@@ -10,6 +10,7 @@ const app = Vue.createApp({
       monsterHealth: 100,
       currentRound: 0,
       winner: null,
+      logMessages: [],
     };
   },
   computed: {
@@ -55,16 +56,19 @@ const app = Vue.createApp({
       this.currentRound++;
       const dmg = getRandomValue(5, 12);
       this.monsterHealth -= dmg;
+      this.addLogMessage("player", "attack", dmg);
       this.monsterAttack(); // The monster attacks after the player attacks
     },
     monsterAttack() {
       const dmg = getRandomValue(8, 15);
       this.playerHealth -= dmg;
+      this.addLogMessage("monster", "attack", dmg);
     },
     playerSpecialAttack() {
       this.currentRound++;
       const dmg = getRandomValue(10, 25);
       this.monsterHealth -= dmg;
+      this.addLogMessage("player", "special attack", dmg);
       this.monsterAttack();
     },
     playerHeal() {
@@ -73,8 +77,10 @@ const app = Vue.createApp({
       // The player cannot increase their HP past 100
       if (this.playerHealth + healAmount > 100) {
         this.playerHealth = 100;
+        this.addLogMessage("player", "heal", 0);
       } else {
         this.playerHealth += healAmount;
+        this.addLogMessage("player", "heal", healAmount);
       }
       this.monsterAttack();
     },
@@ -83,9 +89,17 @@ const app = Vue.createApp({
       this.monsterHealth = 100;
       this.currentRound = 0;
       this.winner = null;
+      this.logMessages = [];
     },
     playerSurrender() {
       this.winner = "monster";
+    },
+    addLogMessage(subject, action, value) {
+      this.logMessages.unshift({
+        actionBy: subject,
+        actionType: action,
+        actionValue: value,
+      });
     },
   },
 });
