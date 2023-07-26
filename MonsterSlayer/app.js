@@ -5,7 +5,12 @@ function getRandomValue(min, max) {
 
 const app = Vue.createApp({
   data() {
-    return { playerHealth: 100, monsterHealth: 100, currentRound: 0 };
+    return {
+      playerHealth: 100,
+      monsterHealth: 100,
+      currentRound: 0,
+      winner: null,
+    };
   },
   computed: {
     monsterBarStyles() {
@@ -21,15 +26,21 @@ const app = Vue.createApp({
   },
   watch: {
     playerHealth(value) {
-      if (value <= 0) {
-        this.playerHealth = 0;
-        alert("GAME OVER: The monster has defeated the player!");
+      if (value <= 0 && this.monsterHealth <= 0) {
+        // Draw
+        this.winner = "draw";
+      } else if (value <= 0) {
+        // Player has lost
+        this.winner = "monster";
       }
     },
     monsterHealth(value) {
-      if (value <= 0) {
-        this.monsterHealth = 0;
-        alert("VICTORY: The monster has been defeated!");
+      if (value <= 0 && this.monsterHealth <= 0) {
+        // Draw
+        this.winner = "draw";
+      } else if (value <= 0) {
+        // Player has won
+        this.winner = "player";
       }
     },
   },
