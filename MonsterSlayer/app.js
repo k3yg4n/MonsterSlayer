@@ -50,6 +50,17 @@ const app = Vue.createApp({
       this.monsterHealth -= dmg;
       this.monsterAttack();
     },
+    playerHeal() {
+      this.currentRound++;
+      const healAmount = getRandomValue(8, 20);
+      // The player cannot increase their HP past 100
+      if (this.playerHealth + healAmount > 100) {
+        this.playerHealth = 100;
+      } else {
+        this.playerHealth += healAmount;
+      }
+      this.monsterAttack();
+    },
   },
 });
 
