@@ -30,7 +30,7 @@
         </div>
       </section>
 
-      <section v-if="winner" class="container">
+      <section class="container" v-if="winner">
         <h2>Game Over!</h2>
         <h3 v-if="winner === 'monster'">You were slain by the monster...</h3>
         <h3 v-else-if="winner === 'player'">
@@ -39,10 +39,10 @@
         <h3 v-else-if="winner === 'draw'">
           DRAW: The player and the monster have both fallen in combat!
         </h3>
-        <button @click="restartGame">Rebattle the Monster</button>
+        <button @click="restartGame()">Rebattle the Monster</button>
       </section>
 
-      <section id="controls">
+      <section id="controls" v-if="!winner">
         <button @click="playerAttack()">ATTACK</button>
         <button
           :disabled="specialAttackAvailable"
@@ -51,7 +51,7 @@
           SPECIAL ATTACK
         </button>
         <button @click="playerHeal()">HEAL</button>
-        <button>SURRENDER</button>
+        <button @click="playerSurrender()">SURRENDER</button>
       </section>
       <section id="log" class="container">
         <h2>Battle Log</h2>

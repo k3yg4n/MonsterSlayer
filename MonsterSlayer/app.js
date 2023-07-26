@@ -84,6 +84,9 @@ const app = Vue.createApp({
       this.currentRound = 0;
       this.winner = null;
     },
+    playerSurrender() {
+      this.winner = "monster";
+    },
   },
 });
 
